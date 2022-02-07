@@ -1,19 +1,18 @@
 package org.bgamard.fsdtracker.dto;
 
 import org.bgamard.fsdtracker.entity.Trip;
+import org.bgamard.fsdtracker.entity.TripCondition;
 import org.bgamard.fsdtracker.entity.TripLocation;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.UUID;
 
 public class TripForm {
     public UUID id;
 
     @NotNull
-    public LocalDateTime date;
+    public LocalDate date;
 
     public int duration;
 
@@ -25,9 +24,11 @@ public class TripForm {
 
     public int criticalFailure;
 
-    @Enumerated(EnumType.STRING)
     @NotNull
     public TripLocation location;
+
+    @NotNull
+    public TripCondition condition;
 
     public Trip toEntity() {
         Trip trip = new Trip();
@@ -43,6 +44,7 @@ public class TripForm {
         trip.streetDistance = streetDistance;
         trip.simpleFailure = simpleFailure;
         trip.criticalFailure = criticalFailure;
+        trip.condition = condition;
         trip.location = location;
     }
 }
