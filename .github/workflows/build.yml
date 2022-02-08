@@ -45,7 +45,6 @@ jobs:
           envkey_VUE_APP_API_URL: ${{ secrets.VUE_APP_API_URL }}
           directory: web
           file_name: .env
-      - run: cat web/.env
       - uses: docker/build-push-action@v2
         with:
           context: web
