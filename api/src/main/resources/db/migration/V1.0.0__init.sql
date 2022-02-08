@@ -7,5 +7,6 @@ create table trip (
    simplefailure integer not null,
    criticalfailure integer not null,
    location varchar(255) not null,
-   condition varchar(255) not null
+   condition varchar(255) not null,
+   version varchar(255) not null
 );

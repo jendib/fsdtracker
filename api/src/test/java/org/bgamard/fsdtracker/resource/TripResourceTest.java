@@ -4,7 +4,6 @@ import io.quarkus.test.junit.QuarkusTest;
 import org.bgamard.fsdtracker.dto.TripForm;
 import org.bgamard.fsdtracker.entity.Trip;
 import org.bgamard.fsdtracker.entity.TripCondition;
-import org.bgamard.fsdtracker.entity.TripLocation;
 import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.core.MediaType;
@@ -26,8 +25,9 @@ public class TripResourceTest {
 
         TripForm form = new TripForm();
         form.date = LocalDate.now();
-        form.location = TripLocation.SAN_DIEGO;
+        form.location = "San Diego";
         form.condition = TripCondition.DAY;
+        form.version = "10.10";
         Trip trip = given()
                 .when().body(form)
                 .contentType(MediaType.APPLICATION_JSON)

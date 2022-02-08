@@ -59,12 +59,16 @@ export default {
         value: 'date'
       },
       {
-        text: 'Duration',
-        value: 'duration'
-      },
-      {
         text: 'Condition',
         value: 'condition'
+      },
+      {
+        text: 'Location',
+        value: 'location'
+      },
+      {
+        text: 'Duration',
+        value: 'duration'
       },
       {
         text: 'Highway Distance',
@@ -81,6 +85,10 @@ export default {
       {
         text: 'Critical Failure',
         value: 'criticalFailure'
+      },
+      {
+        text: 'FSD Version',
+        value: 'version'
       },
       {
         text: '',
@@ -101,8 +109,9 @@ export default {
       this.trip = {
         simpleFailure: 0,
         criticalFailure: 0,
-        location: 'SAN_DIEGO',
-        condition: 'DAY'
+        location: 'San Diego',
+        condition: 'DAY',
+        version: '10.8'
       }
     },
 

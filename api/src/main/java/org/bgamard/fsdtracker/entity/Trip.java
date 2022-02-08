@@ -22,6 +22,7 @@ public class Trip extends BaseEntity {
     @Enumerated(EnumType.STRING)
     public TripCondition condition;
 
-    @Enumerated(EnumType.STRING)
-    public TripLocation location; // TODO Use postgis location type?
+    public String location;
+
+    public String version;
 }

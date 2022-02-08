@@ -28,6 +28,24 @@
         </v-col>
 
         <v-col cols="4">
+          <v-select
+              :items="conditions"
+              v-model="trip.condition"
+              :rules="[v => !!v || 'Condition is required']"
+              label="Condition"
+          ></v-select>
+        </v-col>
+
+        <v-col cols="4">
+          <v-select
+              :items="locations"
+              v-model="trip.location"
+              :rules="[v => !!v || 'Location is required']"
+              label="Location"
+          ></v-select>
+        </v-col>
+
+        <v-col cols="4">
           <v-text-field
               v-model="trip.duration"
               :rules="[v => !!v || 'Duration is required']"
@@ -37,15 +55,6 @@
         </v-col>
 
         <v-col cols="4">
-          <v-select
-              :items="conditions"
-              v-model="trip.condition"
-              :rules="[v => !!v || 'Condition is required']"
-              label="Condition"
-          ></v-select>
-        </v-col>
-
-        <v-col cols="6">
           <v-text-field
               v-model="trip.highwayDistance"
               :rules="[v => !!v || 'Highway Distance is required']"
@@ -54,7 +63,7 @@
           ></v-text-field>
         </v-col>
 
-        <v-col cols="6">
+        <v-col cols="4">
           <v-text-field
               v-model="trip.streetDistance"
               :rules="[v => !!v || 'Street Distance is required']"
@@ -63,7 +72,7 @@
           ></v-text-field>
         </v-col>
 
-        <v-col cols="6">
+        <v-col cols="4">
           <v-text-field
               v-model="trip.simpleFailure"
               :rules="[v => !!v || v === 0 || 'Simple Failure is required']"
@@ -72,13 +81,22 @@
           ></v-text-field>
         </v-col>
 
-        <v-col cols="6">
+        <v-col cols="4">
           <v-text-field
               v-model="trip.criticalFailure"
               :rules="[v => !!v || v === 0 || 'Critical failure is required']"
               type="number"
               label="Critical Failure"
           ></v-text-field>
+        </v-col>
+
+        <v-col cols="4">
+          <v-select
+              :items="versions"
+              v-model="trip.version"
+              :rules="[v => !!v || 'Version is required']"
+              label="FSD Version"
+          ></v-select>
         </v-col>
 
         <v-col cols="12" class="d-flex justify-center">
@@ -120,15 +138,13 @@ export default {
     snackbarColor: 'success',
     snackbarText: '',
     conditions: [
-      {
-        text: 'Day',
-        value: 'DAY'
-      },
-      {
-        text: 'Night',
-        value: 'NIGHT'
-      }
-    ]
+      { text: 'Day', value: 'DAY' },
+      { text: 'Night', value: 'NIGHT' }
+    ],
+    locations: [
+      'San Diego', 'Carlsbad', 'Oceanside', 'San Marcos', 'La Jolla', 'Kearny Mesa', 'Mission Valley', 'La Mesa', 'Chula Vista', 'National City', 'Otay Mesa', 'Encinitas', 'Escondido', 'Temecula', 'Irvine', 'San Clemente', 'Anaheim', 'Santa Ana', 'Menifee', 'Riverside', 'Huntington Beach', 'San Bernardino', 'Rancho Cucamonga', 'Los Angeles', 'San Fernando', 'Victorville',
+    ],
+    versions: ['10.8', '10.9', '10.10']
   }),
 
   methods: {

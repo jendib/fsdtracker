@@ -2,7 +2,6 @@ package org.bgamard.fsdtracker.dto;
 
 import org.bgamard.fsdtracker.entity.Trip;
 import org.bgamard.fsdtracker.entity.TripCondition;
-import org.bgamard.fsdtracker.entity.TripLocation;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -25,10 +24,12 @@ public class TripForm {
     public int criticalFailure;
 
     @NotNull
-    public TripLocation location;
+    public String location;
 
     @NotNull
     public TripCondition condition;
+
+    public String version;
 
     public Trip toEntity() {
         Trip trip = new Trip();
@@ -46,5 +47,6 @@ public class TripForm {
         trip.criticalFailure = criticalFailure;
         trip.condition = condition;
         trip.location = location;
+        trip.version = version;
     }
 }
