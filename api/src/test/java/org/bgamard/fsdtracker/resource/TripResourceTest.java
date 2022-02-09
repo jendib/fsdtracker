@@ -1,7 +1,7 @@
 package org.bgamard.fsdtracker.resource;
 
 import io.quarkus.test.junit.QuarkusTest;
-import org.bgamard.fsdtracker.dto.TripForm;
+import org.bgamard.fsdtracker.dto.TripRequest;
 import org.bgamard.fsdtracker.entity.Trip;
 import org.bgamard.fsdtracker.entity.TripCondition;
 import org.junit.jupiter.api.Test;
@@ -23,7 +23,7 @@ public class TripResourceTest {
                 .statusCode(200)
                 .extract().body().as(Trip[].class);
 
-        TripForm form = new TripForm();
+        TripRequest form = new TripRequest();
         form.date = LocalDate.now();
         form.location = "San Diego";
         form.condition = TripCondition.DAY;

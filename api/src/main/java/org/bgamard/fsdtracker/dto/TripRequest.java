@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public class TripForm {
+public class TripRequest {
     public UUID id;
 
     @NotNull

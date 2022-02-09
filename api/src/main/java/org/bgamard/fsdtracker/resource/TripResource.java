@@ -1,7 +1,7 @@
 package org.bgamard.fsdtracker.resource;
 
 import io.quarkus.panache.common.Sort;
-import org.bgamard.fsdtracker.dto.TripForm;
+import org.bgamard.fsdtracker.dto.TripRequest;
 import org.bgamard.fsdtracker.entity.Trip;
 
 import javax.transaction.Transactional;
@@ -25,7 +25,7 @@ public class TripResource {
 
     @POST
     @Transactional
-    public Trip create(@Valid TripForm form) {
+    public Trip create(@Valid TripRequest form) {
         Trip trip = form.toEntity();
         trip.id = null;
         trip.persist();
@@ -34,7 +34,7 @@ public class TripResource {
 
     @PUT
     @Transactional
-    public void update(@Valid TripForm form) {
+    public void update(@Valid TripRequest form) {
         Trip trip = Trip.findById(form.id);
         if (trip == null) {
             throw new NotFoundException();
