@@ -1,5 +1,7 @@
 <template>
-  <div>FSD Tracker.</div>
+  <div class="mt-12 font-weight-bold text-center">
+    Graph coming here soon.
+  </div>
 </template>
 
 <script>

@@ -9,7 +9,8 @@ import org.junit.jupiter.api.Test;
 import javax.ws.rs.core.MediaType;
 
 import static io.restassured.RestAssured.given;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @QuarkusTest
 public class UserResourceTest {
@@ -33,7 +34,6 @@ public class UserResourceTest {
                 .then()
                 .statusCode(200)
                 .extract().body().as(UserMeResponse.class);
-        assertFalse(userMeResponse.anonymous);
         assertEquals(request.name, userMeResponse.name);
     }
 }

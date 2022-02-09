@@ -2,6 +2,7 @@ package org.bgamard.fsdtracker.resource;
 
 import io.quarkus.elytron.security.common.BcryptUtil;
 import io.quarkus.panache.common.Parameters;
+import io.quarkus.security.Authenticated;
 import io.smallrye.jwt.build.Jwt;
 import org.bgamard.fsdtracker.dto.UserLoginRequest;
 import org.bgamard.fsdtracker.dto.UserLoginResponse;
@@ -23,13 +24,11 @@ public class UserResource {
 
     @GET
     @Path("me")
+    @Authenticated
     public UserMeResponse me() {
         UserMeResponse response = new UserMeResponse();
-        response.anonymous = jwt.getName() == null;
-        if (jwt.getName() != null) {
-            response.name = jwt.getName();
-            response.roles = jwt.getGroups();
-        }
+        response.name = jwt.getName();
+        response.roles = jwt.getGroups();
         return response;
     }
 

@@ -2,8 +2,10 @@ package org.bgamard.fsdtracker.resource;
 
 import io.quarkus.panache.common.Sort;
 import org.bgamard.fsdtracker.dto.TripRequest;
+import org.bgamard.fsdtracker.entity.Role;
 import org.bgamard.fsdtracker.entity.Trip;
 
+import javax.annotation.security.RolesAllowed;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.ws.rs.*;
@@ -15,12 +17,11 @@ import java.util.UUID;
 @Path("/trip")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-// TODO Add security
+@RolesAllowed({Role.Names.MEMBER, Role.Names.ADMIN })
 public class TripResource {
     @GET
     public List<Trip> list() {
-        List<Trip> tripList = Trip.listAll(Sort.by("date").descending());
-        return tripList;
+        return Trip.listAll(Sort.by("date").descending());
     }
 
     @POST

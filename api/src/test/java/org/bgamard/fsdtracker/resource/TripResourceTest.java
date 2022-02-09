@@ -10,6 +10,7 @@ import javax.ws.rs.core.MediaType;
 import java.time.LocalDate;
 
 import static io.restassured.RestAssured.given;
+import static org.bgamard.fsdtracker.util.TestConstants.AUTHORIZATION;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -18,7 +19,9 @@ public class TripResourceTest {
     @Test
     public void testCrud() {
         given()
-                .when().get("/trip")
+                .when()
+                .header("Authorization", AUTHORIZATION)
+                .get("/trip")
                 .then()
                 .statusCode(200)
                 .extract().body().as(Trip[].class);
@@ -29,7 +32,9 @@ public class TripResourceTest {
         form.condition = TripCondition.DAY;
         form.version = "10.10";
         Trip trip = given()
-                .when().body(form)
+                .when()
+                .header("Authorization", AUTHORIZATION)
+                .body(form)
                 .contentType(MediaType.APPLICATION_JSON)
                 .post("/trip")
                 .then()
@@ -38,14 +43,18 @@ public class TripResourceTest {
         assertNotNull(trip.id);
 
         Trip[] trips = given()
-                .when().get("/trip")
+                .when()
+                .header("Authorization", AUTHORIZATION)
+                .get("/trip")
                 .then()
                 .statusCode(200)
                 .extract().body().as(Trip[].class);
         assertEquals(1, trips.length);
 
         given()
-                .when().delete("/trip/" + trip.id)
+                .when()
+                .header("Authorization", AUTHORIZATION)
+                .delete("/trip/" + trip.id)
                 .then()
                 .statusCode(200);
     }
