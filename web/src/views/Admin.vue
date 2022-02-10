@@ -2,7 +2,7 @@
   <div class="mt-8">
     <v-row justify="center">
       <v-col cols="12" xl="6">
-        <v-card>
+        <v-card flat outlined class="pa-4">
           <v-card-title>New Trip</v-card-title>
           <trip-form :trip="trip" v-on:trip-added="load()"></trip-form>
         </v-card>
@@ -11,7 +11,7 @@
       <v-col cols="12" xl="12">
         <v-row justify="center">
           <v-col cols="12" xl="6">
-              <v-card>
+              <v-card flat outlined class="pa-4">
                 <v-card-title>Trips</v-card-title>
 
                 <v-data-table
