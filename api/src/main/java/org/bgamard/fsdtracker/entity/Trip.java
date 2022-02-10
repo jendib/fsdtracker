@@ -1,8 +1,9 @@
 package org.bgamard.fsdtracker.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
@@ -25,4 +26,8 @@ public class Trip extends BaseEntity {
     public String location;
 
     public String version;
+
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @Fetch(FetchMode.JOIN)
+    public User user;
 }

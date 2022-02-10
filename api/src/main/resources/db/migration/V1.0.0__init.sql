@@ -1,3 +1,10 @@
+create table fuser (
+   id uuid not null constraint fuser_key primary key,
+   name varchar(255) not null,
+   password varchar(255) not null,
+   role varchar(255) not null
+);
+
 create table trip (
    id uuid not null constraint trip_key primary key,
    date date not null,
@@ -8,14 +15,10 @@ create table trip (
    criticalfailure integer not null,
    location varchar(255) not null,
    condition varchar(255) not null,
-   version varchar(255) not null
-);
-
-create table fuser (
-   id uuid not null constraint fuser_key primary key,
-   name varchar(255) not null,
-   password varchar(255) not null,
-   role varchar(255) not null
+   version varchar(255) not null,
+   user_id uuid not null
+       constraint fk_trip_user_id
+           references fuser
 );
 
 insert into fuser (id, name, password, role)
