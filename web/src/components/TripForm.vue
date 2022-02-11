@@ -143,7 +143,11 @@ export default {
     ],
     locations: [
       'San Diego', 'Carlsbad', 'Oceanside', 'San Marcos', 'La Jolla', 'Kearny Mesa', 'Mission Valley', 'La Mesa', 'Chula Vista', 'National City', 'Otay Mesa', 'Encinitas', 'Escondido', 'Temecula', 'Irvine', 'San Clemente', 'Anaheim', 'Santa Ana', 'Menifee', 'Riverside', 'Huntington Beach', 'San Bernardino', 'Rancho Cucamonga', 'Los Angeles', 'San Fernando', 'Victorville',
-    ],
+      'Hemet',
+      'Beaumonte',
+      'Moreno Valley',
+      'Redlands',
+    ].sort(),
     versions: ['10.8', '10.9', '10.10']
   }),
 
