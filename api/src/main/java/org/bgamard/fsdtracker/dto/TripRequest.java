@@ -19,9 +19,17 @@ public class TripRequest {
 
     public double streetDistance;
 
-    public int simpleFailure;
+    public int streetSimpleFailure;
 
-    public int criticalFailure;
+    public int streetCriticalFailure;
+
+    public int highwaySimpleFailure;
+
+    public int highwayCriticalFailure;
+
+    public int throttleIntervention;
+
+    public int cancellationIntervention;
 
     @NotNull
     public String location;
@@ -43,8 +51,12 @@ public class TripRequest {
         trip.duration = duration;
         trip.highwayDistance = highwayDistance;
         trip.streetDistance = streetDistance;
-        trip.simpleFailure = simpleFailure;
-        trip.criticalFailure = criticalFailure;
+        trip.highwaySimpleFailure = highwaySimpleFailure;
+        trip.highwayCriticalFailure = highwayCriticalFailure;
+        trip.streetSimpleFailure = streetSimpleFailure;
+        trip.streetCriticalFailure = streetCriticalFailure;
+        trip.throttleIntervention = throttleIntervention;
+        trip.cancellationIntervention = cancellationIntervention;
         trip.condition = condition;
         trip.location = location;
         trip.version = version;

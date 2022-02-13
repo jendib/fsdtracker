@@ -16,9 +16,17 @@ public class Trip extends BaseEntity {
 
     public double streetDistance;
 
-    public int simpleFailure;
+    public int streetSimpleFailure;
 
-    public int criticalFailure;
+    public int streetCriticalFailure;
+
+    public int highwaySimpleFailure;
+
+    public int highwayCriticalFailure;
+
+    public int throttleIntervention;
+
+    public int cancellationIntervention;
 
     @Enumerated(EnumType.STRING)
     public TripCondition condition;

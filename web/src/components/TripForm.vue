@@ -1,8 +1,12 @@
 <template>
   <v-form v-model="valid">
     <v-container>
-      <v-row justify="center">
-        <v-col cols="4">
+      <v-row justify="start">
+        <v-col cols="12">
+          <v-subheader>Trip Informations</v-subheader>
+        </v-col>
+
+        <v-col cols="6" lg="4">
           <v-menu
               v-model="dateMenu"
               :close-on-content-click="false"
@@ -27,7 +31,7 @@
           </v-menu>
         </v-col>
 
-        <v-col cols="4">
+        <v-col cols="6" lg="4">
           <v-select
               :items="conditions"
               v-model="trip.condition"
@@ -36,7 +40,7 @@
           ></v-select>
         </v-col>
 
-        <v-col cols="4">
+        <v-col cols="6" lg="4">
           <v-select
               :items="locations"
               v-model="trip.location"
@@ -45,7 +49,7 @@
           ></v-select>
         </v-col>
 
-        <v-col cols="4">
+        <v-col cols="6" lg="4">
           <v-text-field
               v-model="trip.duration"
               :rules="[v => !!v || 'Duration is required']"
@@ -54,7 +58,7 @@
           ></v-text-field>
         </v-col>
 
-        <v-col cols="4">
+        <v-col cols="6" lg="4">
           <v-text-field
               v-model="trip.highwayDistance"
               :rules="[v => !!v || 'Highway Distance is required']"
@@ -63,7 +67,7 @@
           ></v-text-field>
         </v-col>
 
-        <v-col cols="4">
+        <v-col cols="6" lg="4">
           <v-text-field
               v-model="trip.streetDistance"
               :rules="[v => !!v || 'Street Distance is required']"
@@ -72,31 +76,71 @@
           ></v-text-field>
         </v-col>
 
-        <v-col cols="4">
-          <v-text-field
-              v-model="trip.simpleFailure"
-              :rules="[v => !!v || v === 0 || 'Simple Failure is required']"
-              type="number"
-              label="Simple Failure"
-          ></v-text-field>
-        </v-col>
-
-        <v-col cols="4">
-          <v-text-field
-              v-model="trip.criticalFailure"
-              :rules="[v => !!v || v === 0 || 'Critical failure is required']"
-              type="number"
-              label="Critical Failure"
-          ></v-text-field>
-        </v-col>
-
-        <v-col cols="4">
+        <v-col cols="6" lg="4">
           <v-select
               :items="versions"
               v-model="trip.version"
               :rules="[v => !!v || 'Version is required']"
               label="FSD Version"
           ></v-select>
+        </v-col>
+
+        <v-col cols="12">
+          <v-subheader>Disengagements and Interventions</v-subheader>
+        </v-col>
+
+        <v-col cols="6" lg="3">
+          <v-text-field
+              v-model="trip.highwaySimpleFailure"
+              :rules="[v => !!v || v === 0 || 'Highway Simple Failure is required']"
+              type="number"
+              label="Highway Simple Failure"
+          ></v-text-field>
+        </v-col>
+
+        <v-col cols="6" lg="3">
+          <v-text-field
+              v-model="trip.highwayCriticalFailure"
+              :rules="[v => !!v || v === 0 || 'Highway Critical Failure is required']"
+              type="number"
+              label="Highway Critical Failure"
+          ></v-text-field>
+        </v-col>
+
+        <v-col cols="6" lg="3">
+          <v-text-field
+              v-model="trip.streetSimpleFailure"
+              :rules="[v => !!v || v === 0 || 'Street Simple Failure is required']"
+              type="number"
+              label="Street Simple Failure"
+          ></v-text-field>
+        </v-col>
+
+        <v-col cols="6" lg="3">
+          <v-text-field
+              v-model="trip.streetCriticalFailure"
+              :rules="[v => !!v || v === 0 || 'Street Critical Failure is required']"
+              type="number"
+              label="Street Critical Failure"
+          ></v-text-field>
+        </v-col>
+
+        <v-col cols="6" lg="3">
+          <v-text-field
+              v-model="trip.throttleIntervention"
+              :rules="[v => !!v || v === 0 || 'Throttle Intervention is required']"
+              type="number"
+              label="Throttle Intervention"
+          ></v-text-field>
+        </v-col>
+
+        <v-col cols="6" lg="3">
+          <v-text-field
+              v-model="trip.cancellationIntervention"
+              :rules="[v => !!v || v === 0 || 'Cancellation Intervention is required']"
+              type="number"
+              label="Cancellation Intervention"
+          ></v-text-field>
         </v-col>
 
         <v-col cols="12" class="d-flex justify-center">

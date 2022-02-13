@@ -1,42 +1,40 @@
 <template>
-  <div class="mt-8">
-    <v-row justify="center">
-      <v-col cols="12" xl="6">
-        <v-card flat outlined class="pa-4">
-          <v-card-title>New Trip</v-card-title>
-          <trip-form :trip="trip" v-on:trip-added="load()"></trip-form>
-        </v-card>
-      </v-col>
+  <v-row justify="center">
+    <v-col cols="12" xl="6">
+      <v-card flat outlined class="pa-4">
+        <v-card-title>New Trip</v-card-title>
+        <trip-form :trip="trip" v-on:trip-added="tripAdded()"></trip-form>
+      </v-card>
+    </v-col>
 
-      <v-col cols="12" xl="12">
-        <v-row justify="center">
-          <v-col cols="12" xl="6">
-              <v-card flat outlined class="pa-4">
-                <v-card-title>Trips</v-card-title>
+    <v-col cols="12" xl="12">
+      <v-row justify="center">
+        <v-col cols="12">
+            <v-card flat outlined class="pa-4">
+              <v-card-title>Trips</v-card-title>
 
-                <v-data-table
-                    :headers="headers"
-                    :items="trips"
-                    sort-by="date"
-                    sort-desc
-                    fixed-header
-                    hide-default-footer
-                    disable-pagination>
-                  <template v-slot:item.condition="{ item }">
-                    {{item.condition.charAt(0).toUpperCase() + item.condition.toLowerCase().slice(1)}}
-                  </template>
-                  <template v-slot:item.edit="{ item }">
-                    <v-btn icon @click="remove(item)">
-                      <v-icon>mdi-delete</v-icon>
-                    </v-btn>
-                  </template>
-                </v-data-table>
-              </v-card>
-          </v-col>
-        </v-row>
-      </v-col>
-    </v-row>
-  </div>
+              <v-data-table
+                  :headers="headers"
+                  :items="trips"
+                  sort-by="date"
+                  sort-desc
+                  fixed-header
+                  hide-default-footer
+                  disable-pagination>
+                <template v-slot:item.condition="{ item }">
+                  {{item.condition.charAt(0).toUpperCase() + item.condition.toLowerCase().slice(1)}}
+                </template>
+                <template v-slot:item.edit="{ item }">
+                  <v-btn icon @click="remove(item)">
+                    <v-icon>mdi-delete</v-icon>
+                  </v-btn>
+                </template>
+              </v-data-table>
+            </v-card>
+        </v-col>
+      </v-row>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
@@ -79,16 +77,32 @@ export default {
         value: 'streetDistance'
       },
       {
-        text: 'Simple Failure',
-        value: 'simpleFailure'
-      },
-      {
-        text: 'Critical Failure',
-        value: 'criticalFailure'
-      },
-      {
         text: 'FSD Version',
         value: 'version'
+      },
+      {
+        text: 'Highway Simple Failure',
+        value: 'highwaySimpleFailure'
+      },
+      {
+        text: 'Highway Critical Failure',
+        value: 'highwayCriticalFailure'
+      },
+      {
+        text: 'Street Simple Failure',
+        value: 'streetSimpleFailure'
+      },
+      {
+        text: 'Street Critical Failure',
+        value: 'streetCriticalFailure'
+      },
+      {
+        text: 'Throttle Intervention',
+        value: 'throttleIntervention'
+      },
+      {
+        text: 'Cancellation Intevention',
+        value: 'cancellationIntervention'
       },
       {
         text: '',
@@ -107,11 +121,19 @@ export default {
   methods: {
     newTrip() {
       this.trip = {
-        simpleFailure: 0,
-        criticalFailure: 0,
-        location: 'San Diego',
-        condition: 'DAY',
-        version: '10.8'
+        highwaySimpleFailure: 0,
+        highwayCriticalFailure: 0,
+        streetSimpleFailure: 0,
+        streetCriticalFailure: 0,
+        throttleIntervention: 0,
+        cancellationIntervention: 0,
+        date: localStorage.tripDate ? localStorage.tripDate : null,
+        condition: localStorage.tripCondition ? localStorage.tripCondition : 'DAY',
+        version: localStorage.tripVersion ? localStorage.tripVersion : null,
+        location: null,
+        duration: 0,
+        highwayDistance: 0,
+        streetDistance: 0
       }
     },
 
@@ -119,9 +141,16 @@ export default {
       axios.delete('/trip/' + trip.id).then(() => this.load())
     },
 
-    load() {
-      this.newTrip()
+    tripAdded() {
+      localStorage.tripDate = this.trip.date;
+      localStorage.tripCondition = this.trip.condition;
+      localStorage.tripVersion = this.trip.version;
 
+      this.newTrip()
+      this.load()
+    },
+
+    load() {
       axios.get('/trip').then(response => {
         this.trips = response.data
       })

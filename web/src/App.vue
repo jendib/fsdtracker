@@ -4,7 +4,7 @@
         outlined
         app
         flat
-        color="transparent">
+        color="white">
       <v-container class="fill-height text--primary">
         <router-link class="font-weight-bold text-uppercase text-decoration-none" to="/">
           FSD Tracker
@@ -36,7 +36,9 @@
     </v-app-bar>
 
     <v-main>
-      <router-view/>
+      <div class="mt-8">
+        <router-view/>
+      </div>
     </v-main>
 
     <v-footer padless>
