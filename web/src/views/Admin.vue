@@ -24,6 +24,53 @@
                 <template v-slot:item.condition="{ item }">
                   {{item.condition.charAt(0).toUpperCase() + item.condition.toLowerCase().slice(1)}}
                 </template>
+                <template v-slot:item.disengagements="{ item }">
+                  <v-simple-table>
+                    <template v-slot:default>
+                      <thead>
+                      <tr>
+                        <th></th>
+                        <th class="text-left">Highway</th>
+                        <th class="text-left">Street</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                        <th>Simple</th>
+                        <td>{{ item.highwaySimpleFailure }}</td>
+                        <td>{{ item.streetSimpleFailure }}</td>
+                      </tr>
+                      <tr>
+                        <th>Critical</th>
+                        <td>{{ item.highwayCriticalFailure }}</td>
+                        <td>{{ item.streetCriticalFailure }}</td>
+                      </tr>
+                      </tbody>
+                    </template>
+                  </v-simple-table>
+                </template>
+                <template v-slot:item.interventions="{ item }">
+                  <v-simple-table>
+                    <template v-slot:default>
+                      <thead>
+                      <tr>
+                        <th class="text-left">Throttle</th>
+                        <th class="text-left">Cancellation</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                        <td>{{ item.throttleIntervention }}</td>
+                        <td>{{ item.cancellationIntervention }}</td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      </tbody>
+                    </template>
+                  </v-simple-table>
+                </template>
                 <template v-slot:item.edit="{ item }">
                   <v-btn icon @click="edit(item)">
                     <v-icon>mdi-pencil</v-icon>
@@ -93,28 +140,16 @@ export default {
         value: 'version'
       },
       {
-        text: 'Highway Simple Failure',
-        value: 'highwaySimpleFailure'
+        text: 'Disengagements',
+        value: 'disengagements',
+        filterable: false,
+        sortable: false
       },
       {
-        text: 'Highway Critical Failure',
-        value: 'highwayCriticalFailure'
-      },
-      {
-        text: 'Street Simple Failure',
-        value: 'streetSimpleFailure'
-      },
-      {
-        text: 'Street Critical Failure',
-        value: 'streetCriticalFailure'
-      },
-      {
-        text: 'Throttle Intervention',
-        value: 'throttleIntervention'
-      },
-      {
-        text: 'Cancellation Intevention',
-        value: 'cancellationIntervention'
+        text: 'Interventions',
+        value: 'interventions',
+        filterable: false,
+        sortable: false
       },
       {
         text: '',
