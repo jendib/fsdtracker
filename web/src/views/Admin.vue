@@ -25,13 +25,13 @@
                   {{item.condition.charAt(0).toUpperCase() + item.condition.toLowerCase().slice(1)}}
                 </template>
                 <template v-slot:item.disengagements="{ item }">
-                  <v-simple-table>
+                  <v-simple-table class="transparent">
                     <template v-slot:default>
                       <thead>
                       <tr>
-                        <th></th>
-                        <th class="text-left">Highway</th>
-                        <th class="text-left">Street</th>
+                        <th class="transparent"></th>
+                        <th class="text-left transparent">Highway</th>
+                        <th class="text-left transparent">Street</th>
                       </tr>
                       </thead>
                       <tbody>
@@ -50,12 +50,12 @@
                   </v-simple-table>
                 </template>
                 <template v-slot:item.interventions="{ item }">
-                  <v-simple-table>
+                  <v-simple-table class="transparent">
                     <template v-slot:default>
                       <thead>
                       <tr>
-                        <th class="text-left">Throttle</th>
-                        <th class="text-left">Cancellation</th>
+                        <th class="text-left transparent">Throttle</th>
+                        <th class="text-left transparent">Cancellation</th>
                       </tr>
                       </thead>
                       <tbody>
@@ -93,6 +93,12 @@
     </v-dialog>
   </v-row>
 </template>
+
+<style>
+.v-data-table-header th, .v-data-table-header th .v-icon {
+  color: #cc0000 !important;
+}
+</style>
 
 <script>
 import axios from "axios";
