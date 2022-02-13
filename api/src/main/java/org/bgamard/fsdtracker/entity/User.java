@@ -1,5 +1,6 @@
 package org.bgamard.fsdtracker.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import javax.persistence.Entity;
@@ -13,6 +14,7 @@ import java.util.UUID;
 public class User extends BaseEntity {
     public String name;
 
+    @JsonIgnore
     public String password;
 
     @Enumerated(EnumType.STRING)

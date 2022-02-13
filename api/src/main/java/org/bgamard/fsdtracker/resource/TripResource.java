@@ -29,7 +29,7 @@ public class TripResource {
     @GET
     public List<Trip> list() {
         return Trip.list("user = :user",
-                Sort.by("date").descending(),
+                Sort.by("date").descending().and("id").ascending(),
                 Parameters.with("user", User.fromJwt(jwt)));
     }
 

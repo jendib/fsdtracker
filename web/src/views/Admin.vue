@@ -3,7 +3,7 @@
     <v-col cols="12" xl="6">
       <v-card flat outlined class="pa-4">
         <v-card-title>New Trip</v-card-title>
-        <trip-form :trip="trip" v-on:trip-added="tripAdded()"></trip-form>
+        <trip-form :trip="trip" v-on:trip-saved="tripAdded()"></trip-form>
       </v-card>
     </v-col>
 
@@ -25,6 +25,9 @@
                   {{item.condition.charAt(0).toUpperCase() + item.condition.toLowerCase().slice(1)}}
                 </template>
                 <template v-slot:item.edit="{ item }">
+                  <v-btn icon @click="edit(item)">
+                    <v-icon>mdi-pencil</v-icon>
+                  </v-btn>
                   <v-btn icon @click="remove(item)">
                     <v-icon>mdi-delete</v-icon>
                   </v-btn>
@@ -34,6 +37,13 @@
         </v-col>
       </v-row>
     </v-col>
+
+    <v-dialog v-model="editDialog" max-width="1000">
+      <v-card class="pa-4">
+        <v-card-title>Edit Trip</v-card-title>
+        <trip-form :trip="editTrip" v-on:trip-saved="tripEdited()"></trip-form>
+      </v-card>
+    </v-dialog>
   </v-row>
 </template>
 
@@ -49,7 +59,9 @@ export default {
   },
 
   data: () => ({
+    editDialog: false,
     trip: {},
+    editTrip: {},
     trips: [],
     headers: [
       {
@@ -138,15 +150,27 @@ export default {
     },
 
     remove(trip) {
-      axios.delete('/trip/' + trip.id).then(() => this.load())
+      if (confirm('Really delete this trip?')) {
+        axios.delete('/trip/' + trip.id).then(() => this.load())
+      }
+    },
+
+    edit(trip) {
+      this.editDialog = true
+      this.editTrip = JSON.parse(JSON.stringify(trip))
     },
 
     tripAdded() {
-      localStorage.tripDate = this.trip.date;
-      localStorage.tripCondition = this.trip.condition;
-      localStorage.tripVersion = this.trip.version;
+      localStorage.tripDate = this.trip.date
+      localStorage.tripCondition = this.trip.condition
+      localStorage.tripVersion = this.trip.version
 
       this.newTrip()
+      this.load()
+    },
+
+    tripEdited() {
+      this.editDialog = false
       this.load()
     },
 

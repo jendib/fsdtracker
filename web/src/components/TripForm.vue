@@ -142,12 +142,12 @@
               label="Cancellation Intervention"
           ></v-text-field>
         </v-col>
-
-        <v-col cols="12" class="d-flex justify-center">
-          <v-btn color="primary" :disabled="!valid" v-on:click="add()">Add Trip</v-btn>
-        </v-col>
       </v-row>
     </v-container>
+
+    <v-card-actions class="justify-center">
+      <v-btn large color="primary" :disabled="!valid" v-on:click="save()">{{trip.id ? 'Save' : 'Add'}} Trip</v-btn>
+    </v-card-actions>
 
     <v-snackbar v-model="snackbar" :timeout="6000" :color="snackbarColor" bottom>
       {{ snackbarText }}
@@ -196,13 +196,16 @@ export default {
   }),
 
   methods: {
-    add() {
-      axios.post('/trip', this.trip)
+    save() {
+      const promise = this.trip.id ?
+          axios.put('/trip', this.trip) : axios.post('/trip', this.trip)
+
+      promise
           .then(() => {
             this.snackbar = true;
             this.snackbarText = 'Trip saved successfully';
             this.snackbarColor = 'success';
-            this.$emit('trip-added')
+            this.$emit('trip-saved')
           })
           .catch(() => {
             this.snackbar = true;
