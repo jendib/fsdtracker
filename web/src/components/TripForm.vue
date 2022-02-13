@@ -61,7 +61,7 @@
         <v-col cols="6" lg="4">
           <v-text-field
               v-model="trip.highwayDistance"
-              :rules="[v => !!v || 'Highway Distance is required']"
+              :rules="[v => !!v || v === 0 || 'Highway Distance is required']"
               type="number"
               label="Highway Distance (km)"
           ></v-text-field>
@@ -70,7 +70,7 @@
         <v-col cols="6" lg="4">
           <v-text-field
               v-model="trip.streetDistance"
-              :rules="[v => !!v || 'Street Distance is required']"
+              :rules="[v => !!v || v === 0 || 'Street Distance is required']"
               type="number"
               label="Street Distance (km)"
           ></v-text-field>
