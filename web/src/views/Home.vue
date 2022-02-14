@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row justify="center">
+    <v-row justify="center" v-if="counts">
       <v-col xl="2" class="text-center">
         <div class="green lighten-4 ma-4 pa-4 font-weight-light rounded">
           <div>Distance Traveled</div>
