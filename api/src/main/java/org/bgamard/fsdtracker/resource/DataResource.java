@@ -1,5 +1,6 @@
 package org.bgamard.fsdtracker.resource;
 
+import org.bgamard.fsdtracker.dto.CountData;
 import org.bgamard.fsdtracker.dto.TripCondition;
 import org.bgamard.fsdtracker.dto.TripDateData;
 import org.bgamard.fsdtracker.dto.TripType;
@@ -25,5 +26,11 @@ public class DataResource {
             throw new BadRequestException();
         }
         return tripService.dateQuery(condition, type);
+    }
+
+    @GET
+    @Path("count")
+    public CountData count() {
+        return tripService.count();
     }
 }

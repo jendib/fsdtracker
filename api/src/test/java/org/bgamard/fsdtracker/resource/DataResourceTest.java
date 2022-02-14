@@ -1,10 +1,7 @@
 package org.bgamard.fsdtracker.resource;
 
 import io.quarkus.test.junit.QuarkusTest;
-import org.bgamard.fsdtracker.dto.TripCondition;
-import org.bgamard.fsdtracker.dto.TripDateData;
-import org.bgamard.fsdtracker.dto.TripRequest;
-import org.bgamard.fsdtracker.dto.TripType;
+import org.bgamard.fsdtracker.dto.*;
 import org.bgamard.fsdtracker.entity.Trip;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class DataResourceTest {
     @Test
     public void test() {
-        TripRequest form = new TripRequest();
+        var form = new TripRequest();
         form.date = LocalDate.now();
         form.location = "San Diego";
         form.condition = TripCondition.DAY;
@@ -39,7 +36,7 @@ public class DataResourceTest {
                 .extract().body().as(Trip.class);
         assertNotNull(trip.id);
 
-        TripDateData[] datas = given()
+        var datas = given()
                 .when()
                 .queryParam("type", TripType.STREET)
                 .get("/data")
@@ -57,5 +54,13 @@ public class DataResourceTest {
                 .statusCode(200)
                 .extract().body().as(TripDateData[].class);
         assertTrue(datas.length > 0);
+
+        var countData = given()
+                .when()
+                .get("/data/count")
+                .then()
+                .statusCode(200)
+                .extract().body().as(CountData.class);
+        assertTrue(countData.distance > 0);
     }
 }

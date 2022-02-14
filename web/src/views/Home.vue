@@ -1,5 +1,43 @@
 <template>
   <v-container>
+    <v-row justify="center">
+      <v-col xl="2" class="text-center">
+        <div class="green lighten-4 ma-4 pa-4 font-weight-light rounded">
+          <div>Distance Traveled</div>
+          <div class="text-h2">{{counts.distance}}</div>
+          <div>kilometers</div>
+        </div>
+      </v-col>
+      <v-col xl="2" class="text-center">
+        <div class="blue lighten-4 ma-4 pa-4 font-weight-light rounded">
+          <div>FSD Active For</div>
+          <div class="text-h2">{{Math.round(counts.duration / 60)}}</div>
+          <div>hours</div>
+        </div>
+      </v-col>
+      <v-col xl="2" class="text-center">
+        <div class="red lighten-4 ma-4 pa-4 font-weight-light rounded">
+          <div>Critical</div>
+          <div class="text-h2">{{counts.criticalFailure}}</div>
+          <div>Disengagements</div>
+        </div>
+      </v-col>
+      <v-col xl="2" class="text-center">
+        <div class="orange lighten-4 ma-4 pa-4 font-weight-light rounded">
+          <div>Simple</div>
+          <div class="text-h2">{{counts.simpleFailure}}</div>
+          <div>Disengagements</div>
+        </div>
+      </v-col>
+      <v-col xl="2" class="text-center">
+        <div class="grey lighten-4 ma-4 pa-4 font-weight-light rounded">
+          <div>FSD</div>
+          <div class="text-h2">{{counts.versions}}</div>
+          <div>Versions</div>
+        </div>
+      </v-col>
+    </v-row>
+
     <v-row justify="end">
       <v-col cols="12" sm="6" md="4" lg="6" xl="8" class="text--secondary font-italic pa-6">
         Kilometers per disengagement. Higher is better.
@@ -45,6 +83,7 @@ export default {
   },
 
   data: () => ({
+    counts: null,
     chartData: null,
     condition: null,
     type: 'STREET',
@@ -173,6 +212,11 @@ export default {
 
   created() {
     this.load()
+
+    axios.get('/data/count')
+    .then(response => {
+      this.counts = response.data
+    })
   }
 }
 </script>

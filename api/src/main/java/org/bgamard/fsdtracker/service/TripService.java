@@ -1,12 +1,14 @@
 package org.bgamard.fsdtracker.service;
 
 import io.quarkus.hibernate.orm.panache.Panache;
+import org.bgamard.fsdtracker.dto.CountData;
 import org.bgamard.fsdtracker.dto.TripCondition;
 import org.bgamard.fsdtracker.dto.TripDateData;
 import org.bgamard.fsdtracker.dto.TripType;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,5 +44,24 @@ public class TripService {
         }
 
         return dataList;
+    }
+
+    public CountData count() {
+        Object object = Panache.getEntityManager().createNativeQuery("""
+                        select sum(highwaydistance) + sum(streetdistance) totaldistance,
+                               sum(duration) totalduration,
+                               sum(highwaycriticalfailure) + sum(streetcriticalfailure) totalcriticalfailure,
+                               sum(highwaysimplefailure) + sum(streetsimplefailure) totalsimplefailure,
+                               count(distinct version) versions
+                        from trip""")
+                .getSingleResult();
+        Object[] result = (Object[]) object;
+        var countData = new CountData();
+        countData.distance = ((BigDecimal) result[0]).intValue();
+        countData.duration = ((BigInteger) result[1]).intValue();
+        countData.criticalFailure = ((BigInteger) result[2]).intValue();
+        countData.simpleFailure = ((BigInteger) result[3]).intValue();
+        countData.versions = ((BigInteger) result[4]).intValue();
+        return countData;
     }
 }
