@@ -1,8 +1,8 @@
 <template>
   <v-container>
     <v-row justify="end">
-      <v-col cols="12" sm="6" md="4" lg="6" xl="8" class="text--secondary font-italic">
-<!--        Data based on 15 trips-->
+      <v-col cols="12" sm="6" md="4" lg="6" xl="8" class="text--secondary font-italic pa-6">
+        Kilometers per disengagements. Higher is better.
       </v-col>
       <v-col cols="12" sm="6" md="4" lg="3" xl="2">
         <v-select
@@ -10,6 +10,7 @@
             :items="[ { text: 'Surface Street', value: 'STREET' }, { text: 'Highway', value: 'HIGHWAY' } ]"
             v-model="type"
             label="Road Type"
+            hide-details
         ></v-select>
       </v-col>
       <v-col cols="12" sm="6" md="4" lg="3" xl="2">
@@ -18,6 +19,7 @@
             :items="[ { text: 'All conditions', value: null }, { text: 'Day', value: 'DAY' }, { text: 'Night', value: 'NIGHT' } ]"
             v-model="condition"
             label="Condition"
+            hide-details
         ></v-select>
       </v-col>
     </v-row>
@@ -130,7 +132,7 @@ export default {
         const chartData = {
           datasets: [
             {
-              label: 'Simple Disengagements',
+              label: 'Kilometers per Simple Disengagements',
               borderColor: '#282828',
               backgroundColor: '#28282855',
               radius: 0,
@@ -140,7 +142,7 @@ export default {
               borderWidth: 2,
               data: []
             }, {
-              label: 'Critical Disengagements',
+              label: 'Kilometers per Critical Disengagements',
               borderColor: '#cc0000',
               backgroundColor: '#cc000055',
               radius: 0,
