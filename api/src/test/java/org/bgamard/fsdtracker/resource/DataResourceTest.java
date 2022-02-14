@@ -2,7 +2,9 @@ package org.bgamard.fsdtracker.resource;
 
 import io.quarkus.test.junit.QuarkusTest;
 import org.bgamard.fsdtracker.dto.TripCondition;
+import org.bgamard.fsdtracker.dto.TripDateData;
 import org.bgamard.fsdtracker.dto.TripRequest;
+import org.bgamard.fsdtracker.dto.TripType;
 import org.bgamard.fsdtracker.entity.Trip;
 import org.junit.jupiter.api.Test;
 
@@ -15,22 +17,17 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @QuarkusTest
-public class TripResourceTest {
+public class DataResourceTest {
     @Test
-    public void testCrud() {
-        given()
-                .when()
-                .header("Authorization", AUTHORIZATION)
-                .get("/trip")
-                .then()
-                .statusCode(200)
-                .extract().body().as(Trip[].class);
-
+    public void test() {
         TripRequest form = new TripRequest();
         form.date = LocalDate.now();
         form.location = "San Diego";
         form.condition = TripCondition.DAY;
         form.version = "10.10";
+        form.duration = 5;
+        form.streetDistance = 60;
+        form.streetCriticalFailure = 2;
         Trip trip = given()
                 .when()
                 .header("Authorization", AUTHORIZATION)
@@ -42,20 +39,23 @@ public class TripResourceTest {
                 .extract().body().as(Trip.class);
         assertNotNull(trip.id);
 
-        Trip[] trips = given()
+        TripDateData[] datas = given()
                 .when()
-                .header("Authorization", AUTHORIZATION)
-                .get("/trip")
+                .queryParam("type", TripType.STREET)
+                .get("/data")
                 .then()
                 .statusCode(200)
-                .extract().body().as(Trip[].class);
-        assertTrue(trips.length > 0);
+                .extract().body().as(TripDateData[].class);
+        assertTrue(datas.length > 0);
 
-        given()
+        datas = given()
                 .when()
-                .header("Authorization", AUTHORIZATION)
-                .delete("/trip/" + trip.id)
+                .queryParam("type", TripType.STREET)
+                .queryParam("condition", TripCondition.DAY)
+                .get("/data")
                 .then()
-                .statusCode(200);
+                .statusCode(200)
+                .extract().body().as(TripDateData[].class);
+        assertTrue(datas.length > 0);
     }
 }

@@ -1,7 +1,6 @@
 package org.bgamard.fsdtracker.dto;
 
 import org.bgamard.fsdtracker.entity.Trip;
-import org.bgamard.fsdtracker.entity.TripCondition;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;

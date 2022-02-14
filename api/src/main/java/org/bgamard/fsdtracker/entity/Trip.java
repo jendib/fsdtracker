@@ -1,5 +1,6 @@
 package org.bgamard.fsdtracker.entity;
 
+import org.bgamard.fsdtracker.dto.TripCondition;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
