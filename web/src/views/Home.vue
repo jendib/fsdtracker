@@ -1,15 +1,23 @@
 <template>
   <v-container>
-    <v-row justify="space-between">
-      <v-col cols="12" sm="6" md="4" lg="3" xl="2" class="text--secondary font-italic">
-        Data based on 15 trips
+    <v-row justify="end">
+      <v-col cols="12" sm="6" md="4" lg="6" xl="8" class="text--secondary font-italic">
+<!--        Data based on 15 trips-->
       </v-col>
       <v-col cols="12" sm="6" md="4" lg="3" xl="2">
         <v-select
             solo
-            :items="intervals"
-            v-model="interval"
-            label="Time"
+            :items="[ { text: 'Surface Street', value: 'STREET' }, { text: 'Highway', value: 'HIGHWAY' } ]"
+            v-model="type"
+            label="Road Type"
+        ></v-select>
+      </v-col>
+      <v-col cols="12" sm="6" md="4" lg="3" xl="2">
+        <v-select
+            solo
+            :items="[ { text: 'All conditions', value: null }, { text: 'Day', value: 'DAY' }, { text: 'Night', value: 'NIGHT' } ]"
+            v-model="condition"
+            label="Condition"
         ></v-select>
       </v-col>
     </v-row>
@@ -25,6 +33,7 @@
 
 <script>
 import DisengagementChart from "@/components/DisengagementChart";
+import axios from "axios";
 
 export default {
   name: 'Home',
@@ -34,54 +43,9 @@ export default {
   },
 
   data: () => ({
-    interval: 'Last Week',
-
-    intervals: ['Last Week', 'Last Month', 'All Time', 'Version: 10.8', 'Version: 10.9', 'Version: 10.10'],
-
-    chartData: {
-      datasets: [
-        {
-          label: 'Simple Disengagements',
-          borderColor: '#282828',
-          backgroundColor: '#28282855',
-          radius: 0,
-          hoverRadius: 10,
-          fill: true,
-          lineTension: 0,
-          borderWidth: 2,
-          data: [{
-            x: '2022-01-02',
-            y: 5
-          },{
-            x: '2022-01-03',
-            y: 3
-          },{
-            x: '2022-01-04',
-            y: 2
-          },]
-        }, {
-          label: 'Critical Disengagements',
-          borderColor: '#cc0000',
-          backgroundColor: '#cc000055',
-          radius: 0,
-          hoverRadius: 10,
-          fill: true,
-          lineTension: 0,
-          borderWidth: 2,
-          data: [{
-            x: '2022-01-02',
-            y: 3
-          },{
-            x: '2022-01-03',
-            y: 1
-          },{
-            x: '2022-01-04',
-            y: 1
-          },]
-        }
-      ]
-    },
-
+    chartData: null,
+    condition: null,
+    type: 'STREET',
     chartOptions: {
       layout: {
         padding: {
@@ -144,6 +108,69 @@ export default {
         }]
       }
     }
-  })
+  }),
+
+  watch: {
+    condition() {
+      this.load()
+    },
+    type() {
+      this.load()
+    }
+  },
+
+  methods: {
+    load() {
+      axios.get('/data', {
+        params: {
+          type: this.type,
+          condition: this.condition
+        }
+      }).then(response => {
+        const chartData = {
+          datasets: [
+            {
+              label: 'Simple Disengagements',
+              borderColor: '#282828',
+              backgroundColor: '#28282855',
+              radius: 0,
+              hoverRadius: 10,
+              fill: true,
+              lineTension: 0,
+              borderWidth: 2,
+              data: []
+            }, {
+              label: 'Critical Disengagements',
+              borderColor: '#cc0000',
+              backgroundColor: '#cc000055',
+              radius: 0,
+              hoverRadius: 10,
+              fill: true,
+              lineTension: 0,
+              borderWidth: 2,
+              data: []
+            }
+          ]
+        };
+
+        response.data.forEach(log => {
+          chartData.datasets[0].data.push({
+            x: log.date,
+            y: log.kmSimpleFailure
+          });
+          chartData.datasets[1].data.push({
+            x: log.date,
+            y: log.kmCriticalFailure
+          });
+        });
+
+        this.chartData = chartData;
+      })
+    }
+  },
+
+  created() {
+    this.load()
+  }
 }
 </script>

@@ -16,8 +16,9 @@ public class TripService {
     public List<TripDateData> dateQuery(TripCondition condition, TripType type) {
         String sqlType = type.name().toLowerCase();
         String sqlCondition = condition == null ? "" : "where condition = '" + condition.name() + "'";
+        // TODO Change to "week" when we have enough data
         List<?> resultList = Panache.getEntityManager().createNativeQuery("""
-                        select date_trunc('week', date) AS week,
+                        select date_trunc('day', date) AS week,
                         sum(%sdistance) / nullif(sum(%ssimplefailure), 0) kmSimpleFailure,
                         sum(%sdistance) / nullif(sum(%scriticalfailure), 0) kmCriticalFailure
                         from trip
