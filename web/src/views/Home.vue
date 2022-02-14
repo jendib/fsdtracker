@@ -2,7 +2,7 @@
   <v-container>
     <v-row justify="end">
       <v-col cols="12" sm="6" md="4" lg="6" xl="8" class="text--secondary font-italic pa-6">
-        Kilometers per disengagements. Higher is better.
+        Kilometers per disengagement. Higher is better.
       </v-col>
       <v-col cols="12" sm="6" md="4" lg="3" xl="2">
         <v-select
