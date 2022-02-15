@@ -117,6 +117,7 @@ export default {
           type: 'time',
           ticks: {
             display: true,
+            source: 'data',
             padding: 8,
             maxRotation: 45,
             minRotation: 45
