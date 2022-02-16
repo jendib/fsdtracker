@@ -1,6 +1,6 @@
 package org.bgamard.fsdtracker.resource;
 
-import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.junit.QuarkusIntegrationTest;
 import org.bgamard.fsdtracker.dto.*;
 import org.bgamard.fsdtracker.entity.Trip;
 import org.junit.jupiter.api.Test;
@@ -13,7 +13,7 @@ import static org.bgamard.fsdtracker.util.TestConstants.AUTHORIZATION;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@QuarkusTest
+@QuarkusIntegrationTest
 public class DataResourceTest {
     @Test
     public void test() {
