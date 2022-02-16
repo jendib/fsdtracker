@@ -1,6 +1,6 @@
 package org.bgamard.fsdtracker.resource;
 
-import io.quarkus.test.junit.QuarkusIntegrationTest;
+import io.quarkus.test.junit.QuarkusTest;
 import org.bgamard.fsdtracker.dto.UserLoginRequest;
 import org.bgamard.fsdtracker.dto.UserLoginResponse;
 import org.bgamard.fsdtracker.dto.UserMeResponse;
@@ -12,7 +12,7 @@ import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@QuarkusIntegrationTest
+@QuarkusTest
 public class UserResourceTest {
     @Test
     public void testAuth() {

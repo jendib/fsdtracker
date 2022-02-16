@@ -1,6 +1,6 @@
 package org.bgamard.fsdtracker.resource;
 
-import io.quarkus.test.junit.QuarkusIntegrationTest;
+import io.quarkus.test.junit.QuarkusTest;
 import org.bgamard.fsdtracker.dto.TripCondition;
 import org.bgamard.fsdtracker.dto.TripRequest;
 import org.bgamard.fsdtracker.entity.Trip;
@@ -14,7 +14,7 @@ import static org.bgamard.fsdtracker.util.TestConstants.AUTHORIZATION;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@QuarkusIntegrationTest
+@QuarkusTest
 public class TripResourceTest {
     @Test
     public void testCrud() {

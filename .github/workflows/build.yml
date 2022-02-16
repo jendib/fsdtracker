@@ -24,8 +24,6 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - working-directory: api
         run: mvn clean package -Pnative
-      - working-directory: api
-        run: mvn verify -Pnative
       - uses: docker/login-action@v1
         with:
           registry: ghcr.io
