@@ -20,8 +20,8 @@ public class TripService {
         String sqlCondition = condition == null ? "" : "where condition = '" + condition.name() + "'";
         List<?> resultList = Panache.getEntityManager().createNativeQuery("""
                         select date_trunc('week', date) AS week,
-                        sum(%sdistance) / nullif(sum(%ssimplefailure), 0) kmSimpleFailure,
-                        sum(%sdistance) / nullif(sum(%scriticalfailure), 0) kmCriticalFailure
+                        coalesce(sum(%ssimplefailure), 0) / sum(%sdistance) kmSimpleFailure,
+                        coalesce(sum(%scriticalfailure), 0) / sum(%sdistance) kmCriticalFailure
                         from trip
                         %s
                         group by week
@@ -31,15 +31,15 @@ public class TripService {
         List<TripDateData> dataList = new ArrayList<>();
         for (Object object : resultList) {
             Object[] result = (Object[]) object;
-            var lootInfo = new TripDateData();
-            lootInfo.date = ((Timestamp) result[0]).toLocalDateTime().toLocalDate();
+            var tripData = new TripDateData();
+            tripData.date = ((Timestamp) result[0]).toLocalDateTime().toLocalDate();
             if (result[1] != null) {
-                lootInfo.kmSimpleFailure = ((BigDecimal) result[1]).intValue();
+                tripData.kmSimpleFailure = ((BigDecimal) result[1]).doubleValue();
             }
             if (result[2] != null) {
-                lootInfo.kmCriticalFailure = ((BigDecimal) result[2]).intValue();
+                tripData.kmCriticalFailure = ((BigDecimal) result[2]).doubleValue();
             }
-            dataList.add(lootInfo);
+            dataList.add(tripData);
         }
 
         return dataList;

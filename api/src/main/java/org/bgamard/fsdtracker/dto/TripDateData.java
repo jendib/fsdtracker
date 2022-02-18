@@ -4,6 +4,6 @@ import java.time.LocalDate;
 
 public class TripDateData {
     public LocalDate date;
-    public Integer kmSimpleFailure;
-    public Integer kmCriticalFailure;
+    public double kmSimpleFailure;
+    public double kmCriticalFailure;
 }

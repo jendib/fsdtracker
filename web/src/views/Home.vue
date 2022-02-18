@@ -40,7 +40,7 @@
 
     <v-row justify="end">
       <v-col cols="12" sm="6" md="4" lg="6" xl="8" class="text--secondary font-italic pa-6">
-        Kilometers per disengagement. Higher is better.
+        Disengagements per Kilometer
       </v-col>
       <v-col cols="12" sm="6" md="4" lg="3" xl="2">
         <v-select
@@ -172,7 +172,7 @@ export default {
         const chartData = {
           datasets: [
             {
-              label: 'Kilometers per Simple Disengagements',
+              label: 'Simple Disengagements / km',
               borderColor: '#282828',
               backgroundColor: '#28282855',
               radius: 0,
@@ -182,7 +182,7 @@ export default {
               borderWidth: 2,
               data: []
             }, {
-              label: 'Kilometers per Critical Disengagements',
+              label: 'Critical Disengagements / km',
               borderColor: '#cc0000',
               backgroundColor: '#cc000055',
               radius: 0,
@@ -198,11 +198,11 @@ export default {
         response.data.forEach(log => {
           chartData.datasets[0].data.push({
             x: log.date,
-            y: log.kmSimpleFailure
+            y: log.kmSimpleFailure.toFixed(3)
           });
           chartData.datasets[1].data.push({
             x: log.date,
-            y: log.kmCriticalFailure
+            y: log.kmCriticalFailure.toFixed(3)
           });
         });
 
