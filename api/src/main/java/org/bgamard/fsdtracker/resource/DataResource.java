@@ -1,9 +1,6 @@
 package org.bgamard.fsdtracker.resource;
 
-import org.bgamard.fsdtracker.dto.CountData;
-import org.bgamard.fsdtracker.dto.TripCondition;
-import org.bgamard.fsdtracker.dto.TripDateData;
-import org.bgamard.fsdtracker.dto.TripType;
+import org.bgamard.fsdtracker.dto.*;
 import org.bgamard.fsdtracker.service.TripService;
 
 import javax.inject.Inject;
@@ -19,13 +16,25 @@ public class DataResource {
     TripService tripService;
 
     @GET
-    public List<TripDateData> list(
+    @Path("byDate")
+    public List<TripDateData> byDate(
             @QueryParam("condition") TripCondition condition,
             @QueryParam("type") TripType type) {
         if (type == null) {
             throw new BadRequestException();
         }
         return tripService.dateQuery(condition, type);
+    }
+
+    @GET
+    @Path("byVersion")
+    public List<TripVersionData> byVersion(
+            @QueryParam("condition") TripCondition condition,
+            @QueryParam("type") TripType type) {
+        if (type == null) {
+            throw new BadRequestException();
+        }
+        return tripService.versionQuery(condition, type);
     }
 
     @GET

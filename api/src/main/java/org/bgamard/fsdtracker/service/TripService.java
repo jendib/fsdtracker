@@ -1,10 +1,7 @@
 package org.bgamard.fsdtracker.service;
 
 import io.quarkus.hibernate.orm.panache.Panache;
-import org.bgamard.fsdtracker.dto.CountData;
-import org.bgamard.fsdtracker.dto.TripCondition;
-import org.bgamard.fsdtracker.dto.TripDateData;
-import org.bgamard.fsdtracker.dto.TripType;
+import org.bgamard.fsdtracker.dto.*;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.math.BigDecimal;
@@ -33,6 +30,36 @@ public class TripService {
             Object[] result = (Object[]) object;
             var tripData = new TripDateData();
             tripData.date = ((Timestamp) result[0]).toLocalDateTime().toLocalDate();
+            if (result[1] != null) {
+                tripData.kmSimpleFailure = ((BigDecimal) result[1]).doubleValue();
+            }
+            if (result[2] != null) {
+                tripData.kmCriticalFailure = ((BigDecimal) result[2]).doubleValue();
+            }
+            dataList.add(tripData);
+        }
+
+        return dataList;
+    }
+
+    public List<TripVersionData> versionQuery(TripCondition condition, TripType type) {
+        String sqlType = type.name().toLowerCase();
+        String sqlCondition = condition == null ? "" : "where condition = '" + condition.name() + "'";
+        List<?> resultList = Panache.getEntityManager().createNativeQuery("""
+                        select version,
+                        coalesce(sum(%ssimplefailure), 0) / sum(%sdistance) kmSimpleFailure,
+                        coalesce(sum(%scriticalfailure), 0) / sum(%sdistance) kmCriticalFailure
+                        from trip
+                        %s
+                        group by version
+                        order by cast(string_to_array(version, '.') as int[])""".formatted(sqlType, sqlType, sqlType, sqlType, sqlCondition))
+                .getResultList();
+
+        List<TripVersionData> dataList = new ArrayList<>();
+        for (Object object : resultList) {
+            Object[] result = (Object[]) object;
+            var tripData = new TripVersionData();
+            tripData.version = (String) result[0];
             if (result[1] != null) {
                 tripData.kmSimpleFailure = ((BigDecimal) result[1]).doubleValue();
             }

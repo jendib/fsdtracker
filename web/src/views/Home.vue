@@ -39,8 +39,8 @@
     </v-row>
 
     <v-row justify="end">
-      <v-col cols="12" sm="6" md="4" lg="6" xl="8" class="text--secondary font-italic pa-6">
-        Disengagements per Kilometer
+      <v-col cols="12" sm="6" md="4" lg="6" xl="8" class="text-h6 pa-6">
+        Disengagements per kilometer over time
       </v-col>
       <v-col cols="12" sm="6" md="4" lg="3" xl="2">
         <v-select
@@ -63,10 +63,23 @@
     </v-row>
 
     <disengagement-chart
-        v-if="chartData"
-        :chart-data="chartData"
-        :options="chartOptions"
-        :height="150">
+        v-if="chartDateData"
+        :chart-data="chartDateData"
+        :options="chartDateOptions"
+        :height="100">
+    </disengagement-chart>
+
+    <v-row justify="start">
+      <v-col cols="12" sm="6" md="4" lg="6" xl="8" class="text-h6 pa-6">
+        Disengagements per kilometer over FSD versions
+      </v-col>
+    </v-row>
+
+    <disengagement-chart
+        v-if="chartVersionData"
+        :chart-data="chartVersionData"
+        :options="chartVersionOptions"
+        :height="100">
     </disengagement-chart>
   </v-container>
 </template>
@@ -84,10 +97,10 @@ export default {
 
   data: () => ({
     counts: null,
-    chartData: null,
     condition: null,
     type: 'STREET',
-    chartOptions: {
+    chartDateData: null,
+    chartDateOptions: {
       layout: {
         padding: {
           left: 10,
@@ -149,7 +162,56 @@ export default {
           }
         }]
       }
-    }
+    },
+    chartVersionData: null,
+    chartVersionOptions: {
+      layout: {
+        padding: {
+          left: 10,
+          right: 10,
+          top: 10,
+          bottom: 10
+        }
+      },
+      tooltips: {
+        mode: 'nearest',
+        position: 'average',
+        intersect: false
+      },
+      legend: {
+        display: false,
+        position: 'chartArea',
+        labels: {
+          usePointStyle: true
+        }
+      },
+      scales: {
+        xAxes: [{
+          scaleLabel: {
+            display: false
+          },
+          gridLines: false,
+          type: 'category',
+          ticks: {
+            display: true,
+            padding: 8,
+          },
+        }],
+        yAxes: [{
+          scaleLabel: {
+            display: false
+          },
+          gridLines: false,
+          ticks: {
+            reverse: false,
+            display: true,
+            beginAtZero: true,
+            padding: 8,
+            stepSize: 1
+          }
+        }]
+      }
+    },
   }),
 
   watch: {
@@ -163,13 +225,13 @@ export default {
 
   methods: {
     load() {
-      axios.get('/data', {
+      axios.get('/data/byDate', {
         params: {
           type: this.type,
           condition: this.condition
         }
       }).then(response => {
-        const chartData = {
+        const chartDateData = {
           datasets: [
             {
               label: 'Simple Disengagements / km',
@@ -196,17 +258,65 @@ export default {
         };
 
         response.data.forEach(log => {
-          chartData.datasets[0].data.push({
+          chartDateData.datasets[0].data.push({
             x: log.date,
             y: log.kmSimpleFailure.toFixed(3)
           });
-          chartData.datasets[1].data.push({
+          chartDateData.datasets[1].data.push({
             x: log.date,
             y: log.kmCriticalFailure.toFixed(3)
           });
         });
 
-        this.chartData = chartData;
+        this.chartDateData = chartDateData;
+      })
+
+      axios.get('/data/byVersion', {
+        params: {
+          type: this.type,
+          condition: this.condition
+        }
+      }).then(response => {
+        const chartVersionData = {
+          labels: [],
+          datasets: [
+            {
+              label: 'Simple Disengagements / km',
+              borderColor: '#282828',
+              backgroundColor: '#28282855',
+              radius: 0,
+              hoverRadius: 10,
+              fill: true,
+              lineTension: 0,
+              borderWidth: 2,
+              data: []
+            }, {
+              label: 'Critical Disengagements / km',
+              borderColor: '#cc0000',
+              backgroundColor: '#cc000055',
+              radius: 0,
+              hoverRadius: 10,
+              fill: true,
+              lineTension: 0,
+              borderWidth: 2,
+              data: []
+            }
+          ]
+        };
+
+        response.data.forEach(log => {
+          chartVersionData.labels.push(log.version);
+          chartVersionData.datasets[0].data.push({
+            x: log.version,
+            y: log.kmSimpleFailure.toFixed(3)
+          });
+          chartVersionData.datasets[1].data.push({
+            x: log.version,
+            y: log.kmCriticalFailure.toFixed(3)
+          });
+        });
+
+        this.chartVersionData = chartVersionData;
       })
     }
   },

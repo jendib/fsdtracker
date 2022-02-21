@@ -36,24 +36,43 @@ public class DataResourceTest {
                 .extract().body().as(Trip.class);
         assertNotNull(trip.id);
 
-        var datas = given()
+        var dataDates = given()
                 .when()
                 .queryParam("type", TripType.STREET)
-                .get("/data")
+                .get("/data/byDate")
                 .then()
                 .statusCode(200)
                 .extract().body().as(TripDateData[].class);
-        assertTrue(datas.length > 0);
+        assertTrue(dataDates.length > 0);
 
-        datas = given()
+        dataDates = given()
                 .when()
                 .queryParam("type", TripType.STREET)
                 .queryParam("condition", TripCondition.DAY)
-                .get("/data")
+                .get("/data/byDate")
                 .then()
                 .statusCode(200)
                 .extract().body().as(TripDateData[].class);
-        assertTrue(datas.length > 0);
+        assertTrue(dataDates.length > 0);
+
+        var dataVersions = given()
+                .when()
+                .queryParam("type", TripType.STREET)
+                .get("/data/byVersion")
+                .then()
+                .statusCode(200)
+                .extract().body().as(TripVersionData[].class);
+        assertTrue(dataVersions.length > 0);
+
+        dataVersions = given()
+                .when()
+                .queryParam("type", TripType.STREET)
+                .queryParam("condition", TripCondition.DAY)
+                .get("/data/byVersion")
+                .then()
+                .statusCode(200)
+                .extract().body().as(TripVersionData[].class);
+        assertTrue(dataVersions.length > 0);
 
         var countData = given()
                 .when()
