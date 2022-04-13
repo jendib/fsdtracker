@@ -204,7 +204,7 @@ export default {
       'Poway',
       'East County',
     ].sort(),
-    versions: ['10.8', '10.9', '10.10']
+    versions: ['10.8', '10.9', '10.10', '10.11']
   }),
 
   methods: {
