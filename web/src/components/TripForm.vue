@@ -203,6 +203,8 @@ export default {
       'Vista',
       'Poway',
       'East County',
+      'Calexico',
+      'El Centro'
     ].sort(),
     versions: ['10.8', '10.9', '10.10', '10.11']
   }),
